@@ -15,12 +15,6 @@ class Config:
     JSON_AS_ASCII = False
     CORS_ORIGINS = [origin.strip() for origin in os.getenv("CORS_ORIGINS", "http://localhost:4200").split(",") if origin.strip()]
     DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY", "")
-    SMTP_HOST = os.getenv("SMTP_HOST", "smtp.qq.com")
-    SMTP_PORT = int(os.getenv("SMTP_PORT", "465"))
-    SMTP_USERNAME = os.getenv("SMTP_USERNAME", "")
-    SMTP_AUTH_CODE = os.getenv("SMTP_AUTH_CODE", "")
-    SMTP_TIMEOUT_SECONDS = int(os.getenv("SMTP_TIMEOUT_SECONDS", "10"))
-    SMTP_USE_STARTTLS = os.getenv("SMTP_USE_STARTTLS", "false").lower() in {"1", "true", "yes", "on"}
     ADMIN_INVITE_CODE = os.getenv("ADMIN_INVITE_CODE", "000000")
     JWT_ACCESS_TOKEN_EXPIRES_DAYS = int(os.getenv("JWT_ACCESS_TOKEN_EXPIRES_DAYS", "7"))
     JWT_REFRESH_TOKEN_EXPIRES_DAYS = int(os.getenv("JWT_REFRESH_TOKEN_EXPIRES_DAYS", "30"))
