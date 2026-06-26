@@ -1,6 +1,4 @@
-from email.mime.text import MIMEText
 import secrets
-import smtplib
 import requests
 
 from flask import Blueprint, current_app
