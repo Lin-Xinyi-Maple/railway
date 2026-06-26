@@ -15,26 +15,27 @@ auth_bp = Blueprint("auth", __name__)
 
 
 def send_code_email(email, code):
-    if not current_app.config["SMTP_USERNAME"] or not current_app.config["SMTP_AUTH_CODE"]:
+    api_key = current_app.config.get("RESEND_API_KEY")
+    if not api_key:
         return
+
     body = f"您的农产品电商系统邮箱验证码是：{code}，10 分钟内有效。"
-    message = MIMEText(body, "plain", "utf-8")
-    message["Subject"] = "邮箱验证码"
-    message["From"] = current_app.config["SMTP_USERNAME"]
-    message["To"] = email
-    host = current_app.config["SMTP_HOST"]
-    port = current_app.config["SMTP_PORT"]
-    timeout = current_app.config["SMTP_TIMEOUT_SECONDS"]
 
-    if current_app.config["SMTP_USE_STARTTLS"]:
-        server = smtplib.SMTP(host, port, timeout=timeout)
-        server.starttls()
-    else:
-        server = smtplib.SMTP_SSL(host, port, timeout=timeout)
-
-    with server:
-        server.login(current_app.config["SMTP_USERNAME"], current_app.config["SMTP_AUTH_CODE"])
-        server.sendmail(current_app.config["SMTP_USERNAME"], [email], message.as_string())
+    response = requests.post(
+        "https://api.resend.com/emails",
+        headers={
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json",
+        },
+        json={
+            "from": current_app.config.get("MAIL_FROM"),
+            "to": [email],
+            "subject": "邮箱验证码",
+            "text": body,
+        },
+        timeout=10,
+    )
+    response.raise_for_status()
 
 
 @auth_bp.post("/send-code")
