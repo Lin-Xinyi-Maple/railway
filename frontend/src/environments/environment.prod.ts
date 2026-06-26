@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: '/api',
+  apiUrl: 'https://railway-production-c4bf.up.railway.app/api'
   baiduMapAk: ''
 };
 
