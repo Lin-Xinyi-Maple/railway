@@ -31,3 +31,5 @@ class Config:
     OBS_BUCKET = os.getenv("OBS_BUCKET", "")
     OBS_ENDPOINT = os.getenv("OBS_ENDPOINT", "")
     OBS_PUBLIC_BASE_URL = os.getenv("OBS_PUBLIC_BASE_URL", "")
+    RESEND_API_KEY = os.getenv("RESEND_API_KEY", "")
+    MAIL_FROM = os.getenv("MAIL_FROM", "鲜域农品 <onboarding@resend.dev>")
