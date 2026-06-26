@@ -21,7 +21,17 @@ def send_code_email(email, code):
     message["Subject"] = "邮箱验证码"
     message["From"] = current_app.config["SMTP_USERNAME"]
     message["To"] = email
-    with smtplib.SMTP_SSL(current_app.config["SMTP_HOST"], current_app.config["SMTP_PORT"]) as server:
+    host = current_app.config["SMTP_HOST"]
+    port = current_app.config["SMTP_PORT"]
+    timeout = current_app.config["SMTP_TIMEOUT_SECONDS"]
+
+    if current_app.config["SMTP_USE_STARTTLS"]:
+        server = smtplib.SMTP(host, port, timeout=timeout)
+        server.starttls()
+    else:
+        server = smtplib.SMTP_SSL(host, port, timeout=timeout)
+
+    with server:
         server.login(current_app.config["SMTP_USERNAME"], current_app.config["SMTP_AUTH_CODE"])
         server.sendmail(current_app.config["SMTP_USERNAME"], [email], message.as_string())
 
